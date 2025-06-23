@@ -16,14 +16,31 @@ publishes 6D poses according to user desire
 
 This node is implemented in Python to take advantage of more convenient GUI libraries
 
-A graphical user interface that allows a human driver to click a position on a clock, which commands the robot to go to that pose, or to click the space bar to forget the last gui command and return to clock following. 
+A graphical user interface that allows a human driver to click a position on a clock, which commands the robot to go to that pose, or to click the space bar to forget the last gui command and return to clock following.
 
 ## motion_controller
 Implements a simple PID controller and muxing between the user commanded position from `gui_pose_issuer` and the clock position from `clock_pose_issuer`
 
 This node is implemented in C++ because that's what you're supposed to write controllers in.
 
-If the human has not issued a pose in 30 seconds, the robot should return to clock following.
+If the human has not issued a pose in 30 seconds, the robot should return to clock following (following `/clock/pose_command`).
+
+For simplicity, motion_controller is not designed to control orientation.
+
+motion_controller should take as parameters one topic name and a controller frequency
+- `pose_topic`: the name of a topic of type `turtlesim/msg/Pose` to read the robot's current pose from. Defaults to `/turtle1/pose`.
+
+```
+$ ros2 interface show turtlesim/msg/Pose 
+float32 x
+float32 y
+float32 theta
+
+float32 linear_velocity
+float32 angular_velocity
+```
+
+- `controller_freq`: frequency of the controller in Hz. Default 30.
 
 # Topics
 - `/user/pose_command` - geometry_msgs/msg/Pose

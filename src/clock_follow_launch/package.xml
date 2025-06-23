@@ -1,18 +1,22 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>motion_controller</name>
+  <name>clock_follow_launch</name>
   <version>0.0.0</version>
-  <description>Motion controller with PID control and pose command muxing</description>
+  <description>TODO: Package description</description>
   <maintainer email="sam.scheele@outlook.com">sam</maintainer>
-  <license>MIT</license>
+  <license>TODO: License declaration</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
   <depend>rclcpp</depend>
   <depend>geometry_msgs</depend>
-  <depend>std_msgs</depend>
-  <depend>turtlesim</depend>
+  <build_depend>turtlesim</build_depend>
+
+  <exec_depend>motion_controller</exec_depend>
+  <exec_depend>clock_pose_issuer</exec_depend>
+  <exec_depend>gui_pose_issuer</exec_depend>
+  <exec_depend>turtlesim</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

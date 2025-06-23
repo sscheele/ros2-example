@@ -2,5 +2,8 @@
 "python.analysis.extraPaths": [
     "/home/ws/install/gui_pose_issuer/lib/python3.12/site-packages",
     "/opt/ros/jazzy/lib/python3.12/site-packages"
-  ]
+],
+"files.associations": {
+    "functional": "cpp"
+}
 }
