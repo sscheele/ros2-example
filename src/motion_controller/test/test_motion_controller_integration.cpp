@@ -4,7 +4,7 @@
 #include <geometry_msgs/msg/twist.hpp>
 #include <std_msgs/msg/empty.hpp>
 #include <turtlesim/msg/pose.hpp>
-#include "motion_controller/motion_controller_node.hpp"
+#include "motion_controller/motion_controller.hpp"
 
 class TestMotionControllerIntegration : public ::testing::Test
 {
@@ -20,7 +20,7 @@ protected:
     clock_pub_node_ = std::make_shared<rclcpp::Node>("test_clock_publisher");
     test_sub_node_ = std::make_shared<rclcpp::Node>("test_subscriber");
     
-    current_pose_pub_ = pose_pub_node_->create_publisher<turtlesim::msg::Pose>("/turtle1/pose", 10);
+    current_pose_pub_ = pose_pub_node_->create_publisher<geometry_msgs::msg::Pose>("/turtle1/pose", 10);
     user_command_pub_ = user_pub_node_->create_publisher<geometry_msgs::msg::Pose>("/user/pose_command", 10);
     clock_command_pub_ = clock_pub_node_->create_publisher<geometry_msgs::msg::Pose>("/clock/pose_command", 10);
     
@@ -46,7 +46,7 @@ protected:
   std::shared_ptr<rclcpp::Node> clock_pub_node_;
   std::shared_ptr<rclcpp::Node> test_sub_node_;
   
-  rclcpp::Publisher<turtlesim::msg::Pose>::SharedPtr current_pose_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr current_pose_pub_;
   rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr user_command_pub_;
   rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr clock_command_pub_;
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
@@ -58,10 +58,11 @@ protected:
 TEST_F(TestMotionControllerIntegration, RespondsToCurrentPose)
 {
   // Publish a current pose
-  auto pose_msg = turtlesim::msg::Pose();
-  pose_msg.x = 1.0;
-  pose_msg.y = 1.0;
-  pose_msg.theta = 0.0;
+  auto pose_msg = geometry_msgs::msg::Pose();
+  pose_msg.position.x = 1.0;
+  pose_msg.position.y = 1.0;
+  pose_msg.position.z = 0.0;
+  pose_msg.orientation.w = 1.0;  // Identity quaternion
   
   current_pose_pub_->publish(pose_msg);
   
@@ -75,10 +76,11 @@ TEST_F(TestMotionControllerIntegration, RespondsToCurrentPose)
 TEST_F(TestMotionControllerIntegration, RespondsToUserCommand)
 {
   // First publish current pose
-  auto current_pose = turtlesim::msg::Pose();
-  current_pose.x = 0.0;
-  current_pose.y = 0.0;
-  current_pose.theta = 0.0;
+  auto current_pose = geometry_msgs::msg::Pose();
+  current_pose.position.x = 0.0;
+  current_pose.position.y = 0.0;
+  current_pose.position.z = 0.0;
+  current_pose.orientation.w = 1.0;  // Identity quaternion
   current_pose_pub_->publish(current_pose);
   
   // Then publish user command

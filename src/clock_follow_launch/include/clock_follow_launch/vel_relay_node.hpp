@@ -3,6 +3,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/pose.hpp>
 #include <turtlesim/msg/pose.hpp>
 #include <string>
 
@@ -21,7 +22,7 @@ private:
   rclcpp::Subscription<geometry_msgs::msg::Twist>::SharedPtr cmd_vel_sub_;
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr vel_pub_;
   rclcpp::Subscription<turtlesim::msg::Pose>::SharedPtr pose_sub_;
-  rclcpp::Publisher<turtlesim::msg::Pose>::SharedPtr pose_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::Pose>::SharedPtr pose_pub_;
   
   std::string vel_topic_;
   std::string pose_topic_;

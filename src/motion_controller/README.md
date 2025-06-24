@@ -1,6 +1,6 @@
 # Motion Controller
 
-A ROS2 C++ node that implements a simple PID controller with pose command muxing for robot motion control.
+A ROS2 C++ node that implements a simple motion controller with pose command muxing for robot motion control.
 
 ## Overview
 
@@ -15,7 +15,7 @@ It implements intelligent muxing between these sources:
 
 ## Features
 
-- **PID Control**: Simple PID controller for smooth motion to target poses
+- **Proportional Control**: Simple proportional controller for smooth motion to target poses
 - **Command Muxing**: Intelligent switching between user and clock commands
 - **Timeout Handling**: Automatic fallback to clock following after 30 seconds
 - **Configurable Parameters**: Customizable pose topic and controller frequency
@@ -27,14 +27,14 @@ It implements intelligent muxing between these sources:
 - `/user/pose_command` (geometry_msgs/msg/Pose) - User-commanded target poses
 - `/user/pose_cancel` (std_msgs/msg/Empty) - Cancel user commands
 - `/clock/pose_command` (geometry_msgs/msg/Pose) - Clock-based target poses
-- `pose_topic` parameter (turtlesim/msg/Pose) - Current robot pose (default: `/turtle1/pose`)
+- `pose_topic` parameter (geometry_msgs/msg/Pose) - Current robot pose (default: `/robot_pose`)
 
 ### Published Topics
 - `/cmd_vel` (geometry_msgs/msg/Twist) - Velocity commands for robot motion
 
 ## Parameters
 
-- `pose_topic` (string, default: "/turtle1/pose"): Topic name for current robot pose
+- `pose_topic` (string, default: "/robot_pose"): Topic name for current robot pose
 - `controller_freq` (double, default: 30.0): Controller frequency in Hz
 
 ## Usage
@@ -56,11 +56,11 @@ ros2 run motion_controller motion_controller
 
 ## Implementation Details
 
-### PID Controller
-- Proportional gain (kp): 2.0
-- Integral gain (ki): 0.1  
-- Derivative gain (kd): 0.5
-- Anti-windup protection for integral term
+### Motion Controller
+- Uses proportional control for both linear and angular velocities
+- Linear velocity proportional to distance to target
+- Angular velocity proportional to heading error
+- Velocity limits applied for safety
 
 ### Control Strategy
 1. Calculate position error (target - current)
@@ -71,7 +71,7 @@ ros2 run motion_controller motion_controller
 
 ### State Management
 - Tracks user command timeout (30 seconds)
-- Resets PID states when switching command sources
+- Handles switching between command sources smoothly
 - Handles missing pose data gracefully
 
 ## Testing

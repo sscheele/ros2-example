@@ -8,7 +8,7 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             'pose_topic',
-            default_value='/turtle1/pose',
+            default_value='/robot_pose',
             description='Topic name for current robot pose'
         ),
         DeclareLaunchArgument(

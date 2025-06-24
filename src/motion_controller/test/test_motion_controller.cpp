@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <rclcpp/rclcpp.hpp>
-#include "motion_controller/motion_controller_node.hpp"
+#include "motion_controller/motion_controller.hpp"
 
 class TestMotionController : public ::testing::Test
 {

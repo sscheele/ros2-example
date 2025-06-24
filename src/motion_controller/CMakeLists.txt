@@ -17,7 +17,7 @@ include_directories(include)
 
 # Create library
 add_library(motion_controller_lib
-  src/motion_controller_node.cpp
+  src/motion_controller.cpp
 )
 
 ament_target_dependencies(motion_controller_lib
@@ -29,7 +29,7 @@ ament_target_dependencies(motion_controller_lib
 
 # Create executable
 add_executable(motion_controller
-  src/motion_controller.cpp
+  src/motion_controller_node.cpp
 )
 
 target_link_libraries(motion_controller motion_controller_lib)

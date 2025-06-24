@@ -35,7 +35,7 @@ VelRelayNode::VelRelayNode(const rclcpp::NodeOptions & options)
   );
   
   // Create publisher for transformed pose
-  pose_pub_ = this->create_publisher<turtlesim::msg::Pose>("/robot_unit_pose", 10);
+  pose_pub_ = this->create_publisher<geometry_msgs::msg::Pose>("/robot_unit_pose", 10);
 }
 
 void VelRelayNode::cmd_vel_callback(const geometry_msgs::msg::Twist::SharedPtr msg)
@@ -47,16 +47,18 @@ void VelRelayNode::cmd_vel_callback(const geometry_msgs::msg::Twist::SharedPtr m
 void VelRelayNode::pose_callback(const turtlesim::msg::Pose::SharedPtr msg)
 {
   // Create transformed pose message
-  auto transformed_pose = turtlesim::msg::Pose();
+  auto transformed_pose = geometry_msgs::msg::Pose();
   
   // Apply transformation: x' = 3/11 * (x - 5.5), y' = 3/11 * (y - 5.5)
-  transformed_pose.x = (3.0 / 11.0) * (msg->x - 5.5);
-  transformed_pose.y = (3.0 / 11.0) * (msg->y - 5.5);
+  transformed_pose.position.x = (3.0 / 11.0) * (msg->x - 5.5);
+  transformed_pose.position.y = (3.0 / 11.0) * (msg->y - 5.5);
+  transformed_pose.position.z = 0.0;
   
-  // Keep theta and velocities unchanged
-  transformed_pose.theta = msg->theta;
-  transformed_pose.linear_velocity = msg->linear_velocity;
-  transformed_pose.angular_velocity = msg->angular_velocity;
+  // Convert theta to quaternion orientation
+  transformed_pose.orientation.x = 0.0;
+  transformed_pose.orientation.y = 0.0;
+  transformed_pose.orientation.z = std::sin(msg->theta / 2.0);
+  transformed_pose.orientation.w = std::cos(msg->theta / 2.0);
   
   // Publish the transformed pose
   pose_pub_->publish(transformed_pose);
