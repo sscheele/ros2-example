@@ -18,15 +18,6 @@ xhost +local:docker
 
 Note that this will allow any user on your local workstation to interact with your X server; it is not secure for untrusted shared workstations. There are more involved options for authenticating to an X server in this case.
 
-## VS Code
-To get the VS Code C++ extension to properly detect your C++ libraries, generate a unified compile_commands.json or use the one in the root of this workspace. To generate, you first have to remove the `install`, `build`, and `log` directories, and then run:
-
-```
-colcon build --merge-install --cmake-args -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-```
-
-Then the `compile_commands.json` file will be in your `build` directory. It looks like as long as this JSON is generated, VS Code's C++ extension will automatically detect and add it. I like to copy it into my workspace root so that I can run isolated compilation during development. I am `gitignoring` compile_commands.json to force you to do this manually, as this file may change during your own development.
-
 # Nodes
 
 ## clock_pose_issuer
