@@ -18,6 +18,7 @@ RUN groupadd --gid $USER_GID $USERNAME \
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y python3-pip python3-tk ros-jazzy-turtlesim
 ENV SHELL /bin/bash
+RUN echo "source /opt/ros/jazzy/setup.bash && (source /home/ws/install/setup.bash || echo 'Run a build and source setup.bash')" >> /home/$USERNAME/.bashrc
 
 # ********************************************************
 # * Anything else you want to do like clean up goes here *
