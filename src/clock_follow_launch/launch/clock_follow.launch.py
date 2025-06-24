@@ -11,14 +11,14 @@ def generate_launch_description():
     vel_topic_arg = DeclareLaunchArgument(
         'vel_topic',
         default_value='/turtle1/cmd_vel',
-        description='Target topic for velocity commands'
+        description='Target topic for robot-specific velocity commands'
     )
     
     # Declare launch argument for input_pose_topic
     input_pose_topic_arg = DeclareLaunchArgument(
         'input_pose_topic',
         default_value='/turtle1/pose',
-        description='Source topic for robot pose (input to vel_relay)'
+        description='Source topic for robot-specific pose (input to vel_relay)'
     )
     
     return LaunchDescription([

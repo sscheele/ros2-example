@@ -1,8 +1,13 @@
 # ros2-example
-
 A prototype ROS2 stack for a robot that follows pose inputs from two different sources. The robot should take a desired pose and then use a motion controller to get to the desired pose.
 
 Imagine you're building infrastructure for someone else to plug into later -- it should be simple, easy to interpret and build on top of, and have things like a readme, launch system and test scaffolding.
+
+# How To Run
+```
+colcon build
+ros2 launch clock_follow_launch clock_follow.launch.py
+```
 
 # Development
 This repo exposes a vscode dev container. If you want to be able to run graphical programs by sharing your host's X display with the container, the simplest way is to run the following on the host:
@@ -50,3 +55,6 @@ If the human has not issued a pose in 30 seconds, the robot should return to clo
 - `/user/pose_cancel` - std_msgs/msg/Empty
 - `/clock/pose_command` - geometry_msgs/msg/Pose
 - `/cmd_vel` - geometry_msgs/msg/Twist
+
+# Implementing a new motion contoller or robot
+Motion controllers are expected to take in standard `geometry_msgs/msg/Pose` messages as the current and desired poses and write `geometry_msgs/msg/Twist` messages as control outputs. Since the topics are fixed by the assignment to some extent, a shim has been implemented in the `clock_follow_launch` package for coordinate transforms and translating robot-specific message types.

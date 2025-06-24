@@ -9,7 +9,7 @@ def generate_launch_description():
         DeclareLaunchArgument(
             'pose_topic',
             default_value='/robot_pose',
-            description='Topic name for current robot pose'
+            description='Motion controller robot pose input (should be transformed to be in -1 <= (x,y) <= 1)'
         ),
         DeclareLaunchArgument(
             'controller_freq',
